@@ -1,6 +1,5 @@
-import {SPOTIFY_App_Client_ID, SPOTIFY_App_Client_Secret} from '$env/static/private';
-import { error } from '@sveltejs/kit';
-import { json } from '@sveltejs/kit';
+import {SPOTIFY_APP_CLIENT_ID, SPOTIFY_APP_CLIENT_SECRET} from '$env/static/private';
+import { error, json } from '@sveltejs/kit';
 
 export const GET = async ({ fetch, cookies }) => {
     const refreshToken = cookies.get('refresh_token');
@@ -9,13 +8,14 @@ export const GET = async ({ fetch, cookies }) => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
-            Authorization: `Basic ${Buffer.from(`${SPOTIFY_App_Client_ID}:${SPOTIFY_App_Client_Secret}`).toString('base64')}`
+            Authorization: `Basic ${Buffer.from(`${SPOTIFY_APP_CLIENT_ID}:${SPOTIFY_APP_CLIENT_SECRET}`).toString('base64')}`
         },
         body: new URLSearchParams({
             grant_type: 'refresh_token',
             refresh_token: refreshToken || ''
         })
     })
+
     const responseJSON = await response.json();
     if(responseJSON.error) {
        cookies.delete('refresh_token', {path: '/'});
