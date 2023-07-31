@@ -1,5 +1,5 @@
 <script>
-    import { invalidateAll } from 'svelte';
+    import { invalidateAll } from '$app/navigation';
 
 
     async function handleLogout(event) {
