@@ -2,9 +2,10 @@
   import 'modern-normalize/modern-normalize.css';
   import '../styles/main.scss';
   import Navigation from '$lib/components/Navigation.svelte';
+  import Header from '../lib/components/Header.svelte';
   // Define the 'data' prop
   export let data;
-  let topbar;
+  let topbar = null;
   let scrollY;
   let headerOpacity = 0;
 
@@ -26,8 +27,8 @@
     <div id="topbar" bind:this={topbar}>
       <div class="topbar-bg" 
       style:background-color="var(--header-color)" 
-      style:opacity={headerOpacity} /> 
-      topbar
+      style:opacity={`${headerOpacity}`} /> 
+      <Header />
     </div>
     <main id="main-content"  class:logged-in={user}>
       <slot />
