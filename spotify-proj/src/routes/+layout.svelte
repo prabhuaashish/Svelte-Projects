@@ -1,10 +1,16 @@
 <script>
   import 'modern-normalize/modern-normalize.css';
   import '../styles/main.scss';
+  import Nprogress from 'nprogress'
+  import 'nprogress/nprogress.css'
+  import { hideAll } from 'tippy.js';
   import Navigation from '$lib/components/Navigation.svelte';
   import Header from '../lib/components/Header.svelte';
+  import {page}  from '$app/stores';
+  import {beforeNavigate, afterNavigate} from '$app/navigation';
   // Define the 'data' prop
   export let data;
+
   let topbar = null;
   let scrollY;
   let headerOpacity = 0;
@@ -12,10 +18,30 @@
   $: if(topbar){
       headerOpacity = scrollY / (topbar.offsetHeight<1 ? scrollY / topbar.offsetHeight : 1);
   }
-  let user = data.user;
+  $: user = data.user;
+
+  beforeNavigate(() => {
+    Nprogress.start()
+    hideAll()
+  })
+
+  afterNavigate(() => {
+    Nprogress.done()
+  })
+
+  Nprogress.configure({showSpinner: false})
 </script>
 
 <svelte:window bind:scrollY />
+
+<svelte:head>
+  <title>Spotify{$page.data.title ? ` - ${$page.data.title}` : ''}</title>
+</svelte:head>
+
+{#if user}
+  <a href="#main-content" class="skip-link">Skip to Content</a>
+  
+{/if}
 
 <div id="main">
   {#if user}
@@ -41,6 +67,11 @@
 <style lang="scss">
   #main {
     display: flex;
+    :global(html.no-js) & {
+      @include breakpoint.down('md') {
+        display: block;
+      }
+    }
     #content {
       flex:1 ;
       #topbar {
@@ -51,6 +82,16 @@
         align-items: center;
         width: 100%;
         z-index: 100;
+        :global(html.no-js) & {
+          position: sticky;
+          top: 0;
+          height: auto;
+          padding: 10px 20px;
+          background-color: var(--header-color);
+          @include breakpoint.up('md') {
+            position: fixed;
+          }
+        }
         .topbar-bg {
           position: absolute;
           width: 100%;
@@ -71,6 +112,11 @@
         }
         &.logged-in {
           padding-top: calc(30px + var(--header-height));
+          :global(html.no-js) & {
+            @include breakpoint.down('md') {
+              padding-top: 30px;
+            }
+          }
         }
       }
     }

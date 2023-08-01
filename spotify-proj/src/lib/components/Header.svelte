@@ -3,7 +3,7 @@
     import {browser} from "$app/environment";
     import {page} from "$app/stores";
 	import { ChevronDown, ExternalLink } from "lucide-svelte";
-    import  tippy from "$lib/actions/tippy.js";
+    import  tippy from "$lib/actions/tippy/tippy.js";
 	import LogoutButton from "./LogoutButton.svelte";
 
  	$: user = $page.data.user;
@@ -31,6 +31,7 @@
 					placement: 'bottom-end',
 					interactive: true,
                     theme: 'menu'
+
 				}}
 			>
 				{#if user?.images && user.images.length > 0}
@@ -63,6 +64,11 @@
 		justify-content: space-between;
 		align-items: center;
 		width: 100%;
+		:global(html.no-js) & {
+			@include breakpoint.down('md') {
+				justify-content: flex-start;
+			}
+		}
 	}
 	.profile-button {
 		background: none;
@@ -73,6 +79,9 @@
 		align-items: center;
 		color: var(--text-color);
 		cursor: pointer;
+		:global(html.no-js) & {
+			display: none;
+		}
 		:global(.profile-arrow) {
 			margin-left: 3px;
 		}
@@ -115,5 +124,18 @@
 				}
 			}
 		}
+	}
+	:global(html.no-js) #profile-menu {
+		display: block !important;
+		.profile-menu-content {
+			ul{
+				padding: 0;
+				margin: 0;
+				li{
+					display: inline-block;
+				}
+			}
+		}
+		
 	}
 </style>
