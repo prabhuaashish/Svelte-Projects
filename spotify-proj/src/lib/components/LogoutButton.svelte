@@ -1,5 +1,6 @@
 <script>
     import { invalidateAll } from '$app/navigation';
+	import Button from './Button.svelte';
 
 
     async function handleLogout(event) {
@@ -19,5 +20,5 @@
 </script>
 
 <form method="POST" action="/api/auth/logout" on:submit|preventDefault={handleLogout}>
-    <button type="submit">Logout</button>
+    <Button element="button" type="submit">Logout</Button>
 </form>
