@@ -2,7 +2,7 @@ import { redirect } from '@sveltejs/kit';
 
 // Define the load function
 export const load = ({ data, url }) => {
-  const { user } = data || {};
+  const { user, userAllPlaylists } = data || {};
   
   // Handle redirection based on the user's login status and current URL
   if (user && url.pathname === '/login') {
@@ -13,6 +13,7 @@ export const load = ({ data, url }) => {
   }
 
   return {
-    user
+    user,
+    userAllPlaylists
   };
 };

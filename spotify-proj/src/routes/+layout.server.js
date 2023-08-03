@@ -19,8 +19,15 @@ import { redirect } from '@sveltejs/kit';
   
   if (profileRes.ok) {
     const profile = await profileRes.json();
+    let userAllPlaylists = []
+    const usePlaylistsRes = await fetch ('/api/spotify/me/playlists?limit=50')
+    if(usePlaylistsRes.ok){
+        const userPlaylistsResJSON = await usePlaylistsRes.json();
+        userAllPlaylists = userPlaylistsResJSON.items
+    }
     return {
-      user: profile
+      user: profile,
+      userAllPlaylists
     };
   } 
   

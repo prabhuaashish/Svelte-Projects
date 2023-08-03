@@ -3,16 +3,18 @@
     import {browser} from "$app/environment";
     import {page} from "$app/stores";
 	import { ChevronDown, ExternalLink } from "lucide-svelte";
-    import  tippy from "$lib/actions/tippy/tippy.js";
+    import tippy from "$lib/actions/tippy/tippy.js";
 	import LogoutButton from "./LogoutButton.svelte";
 
  	$: user = $page.data.user;
+
+	export let userAllPlaylists;
 </script>
 
 <div class="content">
 	<div class="left">
 		{#if browser}
-			<Navigation desktop={false} />
+			<Navigation desktop={false} {userAllPlaylists} />
 		{/if}
 	</div>
 	<div class="right">
@@ -30,8 +32,8 @@
 					trigger: 'click',
 					placement: 'bottom-end',
 					interactive: true,
-                    theme: 'menu'
-
+					theme: 'menu',
+					hideOnPopperBlur: true
 				}}
 			>
 				{#if user?.images && user.images.length > 0}
@@ -95,7 +97,7 @@
 			background-color: var(--accent-color);
 		}
 	}
-    .profile-menu-content {
+	.profile-menu-content {
 		padding: 5px 0;
 		ul {
 			padding: 0;
@@ -133,14 +135,13 @@
 	:global(html.no-js) #profile-menu {
 		display: block !important;
 		.profile-menu-content {
-			ul{
+			ul {
 				padding: 0;
 				margin: 0;
-				li{
+				li {
 					display: inline-block;
 				}
 			}
 		}
-		
 	}
 </style>

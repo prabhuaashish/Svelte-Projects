@@ -31,10 +31,12 @@
 		"@fontsource/metropolis": "^5.0.5",
 		"@unsass/breakpoint": "^2.3.0",
 		"lucide-svelte": "^0.263.0",
+		"micromodal": "^0.4.10",
 		"modern-normalize": "^2.0.0",
 		"nprogress": "^0.2.0",
 		"pkce-gen": "^1.1.0",
 		"sharp": "^0.32.4",
-		"tippy.js": "^6.3.7"
+		"tippy.js": "^6.3.7",
+		"uniqid": "^5.4.0"
 	}
 }

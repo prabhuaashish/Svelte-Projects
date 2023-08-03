@@ -1,7 +1,8 @@
 <script>
     export let element = 'button';
     export let variant = 'solid';
-    export let className = '';
+    export let className = '';	
+
 </script>
 
 {#if ['button', 'a'].includes(element)}

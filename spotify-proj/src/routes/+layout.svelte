@@ -3,13 +3,20 @@
   import '../styles/main.scss';
   import Nprogress from 'nprogress'
   import 'nprogress/nprogress.css'
+  import MicroModal from 'micromodal';
   import { hideAll } from 'tippy.js';
   import Navigation from '$lib/components/Navigation.svelte';
   import Header from '../lib/components/Header.svelte';
   import {page}  from '$app/stores';
   import {beforeNavigate, afterNavigate} from '$app/navigation';
+  import {browser} from '$app/environment';
   // Define the 'data' prop
   export let data;
+
+
+  if(browser){
+    MicroModal.init();
+  }
 
   let topbar = null;
   let scrollY;
@@ -19,6 +26,7 @@
       headerOpacity = scrollY / (topbar.offsetHeight<1 ? scrollY / topbar.offsetHeight : 1);
   }
   $: user = data.user;
+  $: userAllPlaylists = data.userAllPlaylists;
 
   beforeNavigate(() => {
     Nprogress.start()
@@ -30,6 +38,7 @@
   })
 
   Nprogress.configure({showSpinner: false})
+  
 </script>
 
 <svelte:window bind:scrollY />
@@ -46,7 +55,7 @@
 <div id="main">
   {#if user}
     <div id="sidebar">
-      <Navigation desktop = {true} />
+      <Navigation desktop = {true} {userAllPlaylists}/>
     </div>
   {/if}
   <div id="content">
@@ -55,7 +64,7 @@
         <div class="topbar-bg" 
         style:background-color=  {$page.data.color ? $page.data.color : "var(--header-color)"} 
         style:opacity={`${headerOpacity}`} /> 
-        <Header />
+        <Header {userAllPlaylists}/>
       </div>
     {/if}  
     <main id="main-content"  class:logged-in={user}>

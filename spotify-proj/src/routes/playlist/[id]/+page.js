@@ -26,7 +26,7 @@ export const load = async ({ fetch: _fetch, params, depends, route, url, parent 
 	let isFollowing = null;
 
 	if (isFollowingRes.ok) {
-		const isFollowingJSON  = await isFollowingRes.json();
+		const isFollowingJSON = await isFollowingRes.json();
 		isFollowing = isFollowingJSON[0];
 	}
 

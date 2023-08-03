@@ -9,10 +9,11 @@
 </script>
 
 <div class="banner">
-    <div class="banner-gradient"
-    style:background-image="linear-gradient(0deg, transparent, {color || 'var(--light-gray)'}"/>
-
-   <div class="cover">
+	<div
+		class="banner-gradient"
+		style:background-image="linear-gradient(0deg, transparent, {color || 'var(--light-gray)'})"
+	/>
+	<div class="cover">
 		{#if image}
 			<img src={image} alt={title} />
 		{:else}
@@ -21,21 +22,18 @@
 			</div>
 		{/if}
 	</div>
-
 	<div class="info">
 		{#if type} <p class="type">{type}</p>{/if}
 		<h1 class="title">{title}</h1>
 		<slot name="meta" />
 	</div>
 </div>
-
 <div class="content">
 	<slot />
 </div>
 
-
 <style lang="scss">
-    .content {
+	.content {
 		position: relative;
 		z-index: 10;
 		min-height: 300px;
@@ -70,13 +68,13 @@
 				margin: 0;
 			}
 			.title {
-				font-size: functions.toRem(30);
+				font-size: functions.toRem(32);
 				margin: 5px 0 0;
 				@include breakpoint.up('md') {
-					font-size: functions.toRem(32);
+					font-size: functions.toRem(36);
 				}
 				@include breakpoint.up('lg') {
-					font-size: functions.toRem(40);
+					font-size: functions.toRem(54);
 				}
 			}
 		}
