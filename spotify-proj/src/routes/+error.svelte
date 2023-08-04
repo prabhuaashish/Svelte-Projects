@@ -5,7 +5,7 @@
     import {invalidate} from '$app/navigation';
 
     let isRetrying = false;
-    const retryRoutes = ['/albums/[id]', 'playlists/[id]' ];
+    const retryRoutes = ['/albums/[id]', '/playlists/[id]', '/artist/[id]', '/search/[query]', '/[list=list]/[...rest]'];
 </script>
 
 <svelte:head>

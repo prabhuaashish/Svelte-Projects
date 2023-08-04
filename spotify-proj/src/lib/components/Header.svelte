@@ -5,6 +5,8 @@
 	import { ChevronDown, ExternalLink } from "lucide-svelte";
     import tippy from "$lib/actions/tippy/tippy.js";
 	import LogoutButton from "./LogoutButton.svelte";
+	import SearchForm from "./SearchForm.svelte";
+	import HeaderNav from "./HeaderNav.svelte";
 
  	$: user = $page.data.user;
 
@@ -16,6 +18,13 @@
 		{#if browser}
 			<Navigation desktop={false} {userAllPlaylists} />
 		{/if}
+		<HeaderNav />
+		{#if $page.url.pathname.startsWith('/search')}
+			<div class="search-form">
+				<SearchForm />
+			</div>
+		{/if}
+
 	</div>
 	<div class="right">
 		<div id="profile-button">
@@ -61,6 +70,12 @@
 </div>
 
 <style lang="scss">
+	.search-form {
+		display: none;
+		@include breakpoint.up('lg') {
+			display: block;
+		}
+	}
 	.content {
 		display: flex;
 		justify-content: space-between;
