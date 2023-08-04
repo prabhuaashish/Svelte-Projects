@@ -4,10 +4,16 @@
     import Player from "./Player.svelte";
     import playingGif from "$lib/assets/playing.gif";
     import tippy from "$lib/actions/tippy/tippy.js";
+	import { hideAll } from 'tippy.js';
     import Button from "./Button.svelte";
-
+	import {page} from "$app/stores";
+	import {enhance} from "$app/forms";
+	import { invalidate } from "$app/navigation";
+ 
     let currentlyPlaying = null;
     let isPaused = false;
+	let isAddingToPlaylist = [];
+	let isRemovingFromPlaylist = [];
 
     export let tracks;
     export let isOwner = false;
@@ -69,7 +75,36 @@
             </div>
             <div class="actions-column" class:is-owner={isOwner} >
                 {#if isOwner}
-                    <ListX aria-hidden focusable="false" />
+					<form method="POST"
+						action="/playlist/{$page.params.id}?/removeItem"
+						use:enhance={({ cancel }) => {
+							if (isRemovingFromPlaylist.includes(track.id)) {
+								cancel();
+							}
+							isRemovingFromPlaylist = [...isRemovingFromPlaylist, track.id];
+							return ({ result }) => {
+								if (result.type === 'redirect') {
+									const url = new URL(`${$page.url.origin}${result.location}`);
+									// const error = url.searchParams.get('error');
+									const success = url.searchParams.get('success');
+									if (success) {
+										invalidate(`/api/spotify/playlists/${$page.params.id}`);
+									}
+								}
+								isRemovingFromPlaylist = isRemovingFromPlaylist.filter((t) => t !== track.id);
+							}
+						}}
+					>
+						<input hidden name="track" value={track.id} />
+						<button type="submit"
+							title="Remove {track.name} from playlist"
+							aria-label="Remove {track.name} from playlist"
+							class="remove-pl-button"
+							disabled={isRemovingFromPlaylist.includes(track.id)}
+						>
+							<ListX aria-hidden focusable="false" />
+						</button>
+					</form>
                 {:else}
                     <button
                         title="Add {track.name} to a playlist"
@@ -96,8 +131,28 @@
                     {#if userPlaylists}
 						<div class="playlists-menu" id="{track.id}-playlists-menu" style="display: none;">
                             <div class="playlists-menu-content">
-                                <form method="POST">
-									<input hidden value={track.id} />
+                                <form method="POST"
+									action="/playlist?/addItem&redirect={$page.url.pathname}"
+									use:enhance={({ cancel }) => {
+									if (isAddingToPlaylist.includes(track.id)) {
+										cancel();
+									}
+									isAddingToPlaylist = [...isAddingToPlaylist, track.id];
+									return ({ result }) => {
+										if (result.type === 'redirect') {
+												const url = new URL(`${$page.url.origin}${result.location}`);
+												// const error = url.searchParams.get('error');
+												const success = url.searchParams.get('success');
+												if (success) {
+													hideAll();
+												}
+											}
+
+										isAddingToPlaylist = isAddingToPlaylist.filter((t) => t !== track.id);
+									}
+								}}
+								>
+									<input hidden value={track.id} name="track"/>
 									<div class="field">
 										<select aria-label="Playlist" name="playlist">
 											{#each userPlaylists as playlist}
@@ -106,7 +161,7 @@
 										</select>
 									</div>
 									<div class="submit-button">
-										<Button element="button" type="submit">
+										<Button disabled={isAddingToPlaylist.includes(track.id)} element="button" type="submit">
 											Add <span class="visually-hidden"> {track.name} to selected playlist.</span>
 										</Button>
 									</div>
@@ -266,7 +321,7 @@
 			.actions-column {
 				width: 30px;
 				margin-left: 15px;
-                .add-pl-button {
+                .add-pl-button, .remove-pl-button {
 					background: none;
 					border: none;
 					padding: 5px;
