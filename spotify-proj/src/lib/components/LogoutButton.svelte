@@ -1,6 +1,6 @@
 <script>
     import { invalidateAll } from '$app/navigation';
-	import Button from './Button.svelte';
+  	import Button from './Button.svelte';
 
 
     async function handleLogout(event) {
