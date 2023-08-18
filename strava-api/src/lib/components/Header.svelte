@@ -32,8 +32,8 @@
 					hideOnPopperBlur: true
 				}}
 			>
-				{#if user?.images && user.images.length > 0}
-					<img src={user.images[0].url} alt="" />
+				{#if user?.profile && user.profile.length > 0}
+					<img src={user.profile} alt="" />
 				{/if}
 				{user?.firstname}
 				<ChevronDown class="profile-arrow" size={22} />
