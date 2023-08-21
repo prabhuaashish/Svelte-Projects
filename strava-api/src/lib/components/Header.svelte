@@ -54,25 +54,20 @@
 
 <style lang="scss">
 	.content {
+		padding: 1rem 10rem;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		width: 100%;
+		@include breakpoint.down('md') {
+			padding: 1rem;
+		}
 
 		:global(html.no-js) & {
 			@include breakpoint.down('md') {
 				justify-content: flex-start;
 			}
 		}
-		
-	}
-	.left {
-		display: flex;
-		padding-left: 18rem;
-		align-items: center;
-		@include breakpoint.down('md') {
-            padding-left: 0;
-        }
 	}
 	.profile-button {
 		background: none;

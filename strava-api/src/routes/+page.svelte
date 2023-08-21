@@ -1,10 +1,11 @@
 
 <script>
 	import { ChevronDown } from "lucide-svelte";
+	import Card from "$lib/components/Card.svelte";
 
 	export let data;
 
-    $:console.log(data)
+    // $:console.log(data)
 
 	let sections = [];
 
@@ -24,19 +25,7 @@
 		// 	});
 		// }
 	}
-// Date and Time function
-	function formatDate(dateTimeString) {
-        const options = {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: true
-        };
-        
-        return new Date(dateTimeString).toLocaleString(undefined, options);
-    }
+
 // Pace function
 	function calculatePaceFromSpeed(averageSpeed) {
         const paceInMinutesPerKm = 60 / (averageSpeed * 3.6);
@@ -54,9 +43,7 @@
     }
 </script>
 
-<div>
-    <!-- {data.user.firstname} -->
-</div>
+
 {#each sections as section}
 	<section class="content-row">
 		<div class="content-row-header">
@@ -70,11 +57,13 @@
 		<div class="grid-items">
 			{#each section.items as item}
 				<div class="grid-item" style="background-color: black;">
-					<h3>{item.name}</h3>
-					<h5>Distance: {(item.distance / 1000).toFixed(2)} km</h5>
-					<p>Time: {formatElapsedTime(item.elapsed_time)}</p>
-					<p>Calories Burned: {item.kilojoules.toFixed(1)}</p>
-					<p>Pace: {calculatePaceFromSpeed(item.average_speed)}</p>
+					<Card item={item}>
+						<div class="content">
+							<p><span>Distance</span> {(item.distance / 1000).toFixed(2)} km</p>
+							<p><span>Pace</span> {calculatePaceFromSpeed(item.average_speed)} /km</p>
+							<p><span>Time</span> {formatElapsedTime(item.elapsed_time)}</p>
+						</div>
+					</Card>
 				</div>
 			{/each}
 		</div>
@@ -83,7 +72,6 @@
 
 <style lang="scss">
 	.content-row {
-		padding: 5rem;
 		.content-row-header {
 			display: flex;
 			align-items: center;
@@ -93,6 +81,15 @@
 				font-size: functions.toRem(22);
 				font-weight: 600;
 				margin: 0;
+			}
+		}
+		.content {
+			display: flex;
+			justify-content: space-between;
+			span {
+				display: block;
+				color: var(--light-gray);
+				font-size: functions.toRem(14);
 			}
 		}
 	}

@@ -4,7 +4,7 @@ export const load = async({fetch: _fetch, parent}) => {
     const fetch = (path) => fetchRefresh(_fetch, path);
     const {user} = await parent();
     const stats = fetch(`api/strava/athletes/${user?.id}/stats`)
-    const activities = fetch('api/strava/athlete/activities?before=1692263347&after=1680324698')
+    const activities = fetch('api/strava/athlete/activities?before=1692263347&after=1642749315')
 
     const [statsRes, activitiesRes] = await Promise.all([stats, activities])
 

@@ -87,15 +87,21 @@
         }
         @include breakpoint.up('md') {
           padding: 0 30px;
-          width: calc(100% - var(--sidebar-width));
         }
       }
 		#content {
+			padding: 6rem 11rem;
 			main#main-content {
 				padding: 30px 15px 60px;
 				@include breakpoint.up('md') {
 					padding: 30px 30px 60px;
 				}
+			}
+			@include breakpoint.down('md') {
+			padding: 4rem 2rem;
+			}
+			@include breakpoint.down('lg') {
+			padding: 4rem 2rem;
 			}
 		}
 	}
